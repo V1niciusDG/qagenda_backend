@@ -30,20 +30,20 @@ const options: swaggerJsdoc.Options = {
       },
     },
   },
-  apis: [
-    './src/modules/**/route/paths.ts',
-    './src/modules/**/route/paths.js',
-  ],
+  apis: ['./src/modules/**/route/paths.ts', './src/modules/**/route/paths.js'],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
 const swaggerRoutes = Router();
 
-swaggerRoutes.use('/', swaggerUi.serve);
-swaggerRoutes.get('/', swaggerUi.setup(swaggerSpec, {
-  customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'QAgenda API Docs',
-}));
+swaggerRoutes.get(
+  '/',
+  swaggerUi.serve as any,
+  swaggerUi.setup(swaggerSpec, {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: 'QAgenda API Docs',
+  }) as any
+);
 
 export { swaggerRoutes };
