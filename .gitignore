@@ -10,3 +10,4 @@ coverage/
 *.swo
 *~
 .idea/
+auth-wsthub-services/
