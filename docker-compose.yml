@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: qagenda_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: qagenda
+      POSTGRES_PASSWORD: qagenda123
+      POSTGRES_DB: qagenda
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - qagenda_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: qagenda_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@qagenda.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres
+    networks:
+      - qagenda_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  qagenda_network:
+    driver: bridge
